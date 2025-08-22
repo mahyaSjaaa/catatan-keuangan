@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/supa";
 import { X, Plus, Edit3, DollarSign, TrendingUp, TrendingDown, Wallet } from "lucide-react";
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function Home() {
   const [uang_masuk, setUangMasuk] = useState(0)
@@ -25,6 +26,8 @@ export default function Home() {
   const [onEdit, setOnEdit] = useState(false)
   const [id, setId] = useState('')
   const [mode, setMode] = useState('pengeluaran')
+
+  const [updt, setUpdt] = useState(0)
 
   const [pemasukanAll, setPemasukanAll] = useState(0)
   const [pengeluaranAll,setPengeluaranAll] = useState(0)
@@ -95,7 +98,15 @@ export default function Home() {
         uang_keluar: uang_keluae,
         pengeluaran: pengeluaran,
       })
-      console.log(error);
+      setUangKeluar(0)
+      setUangMasuk(0)
+      setPemasukan(0)
+      setPengeluaran(0)
+      setKeterangan('')
+      setMetode('cash')
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     }else{
       const pengeluaranBefore = cekData[0]?.pengeluaran
       const day = cekData[0]?.created_at
@@ -105,8 +116,15 @@ export default function Home() {
         uang_keluar: parseInt(uang_keluae) + parseInt(uang_keluarBefore),
         pengeluaran: parseInt(pengeluaran) + parseInt(pengeluaranBefore),
       }).eq('created_at', day)
-      console.log(error);
-      
+      setUangKeluar(0)
+      setUangMasuk(0)
+      setPemasukan(0)
+      setPengeluaran(0)
+      setKeterangan('')
+      setMetode('cash')
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     }
   }
 
@@ -153,7 +171,15 @@ export default function Home() {
         uang_keluar: uang_keluae,
         pengeluaran: pengeluaran,
       })
-      console.log(error);
+      setUangKeluar(0)
+      setUangMasuk(0)
+      setPemasukan(0)
+      setPengeluaran(0)
+      setKeterangan('')
+      setMetode('cash')
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     }else{
       const pemasukanBefore = cekData[0]?.pemasukan
       const day = cekData[0]?.created_at
@@ -163,7 +189,15 @@ export default function Home() {
         uang_masuk: parseInt(uang_masuk) + parseInt(uang_masukBefore),
         pemasukan: parseInt(pemasukan) + parseInt(pemasukanBefore),
       }).eq('created_at', day)
-      console.log(error); 
+      setUangKeluar(0)
+      setUangMasuk(0)
+      setPemasukan(0)
+      setPengeluaran(0)
+      setKeterangan('')
+      setMetode('cash')
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     }
   }
 
@@ -201,7 +235,7 @@ export default function Home() {
       setPengeluaranToday(expens)
     }
     fetchData()
-  }, [onClear])
+  }, [onClear, updt])
 
     useEffect(() => {
         if(tanggalGte != "" && tanggalLte != "")fetchTransaksiByDate()
@@ -229,7 +263,9 @@ export default function Home() {
       keterangan: keterangan,
       metode: metode
     }).eq('id', id)
-    console.log(error);
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     
   }
 
@@ -240,12 +276,18 @@ export default function Home() {
       keterangan: keterangan,
       metode: metode
     }).eq('id', id)
-    console.log(error);
+      toast.success('Berhasil disimpan')
+      setUpdt(prev => prev + 1)
+      if(error) toast.error("Gagal menyimpan")
     
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
       <div className="container mx-auto px-4 py-6 max-w-6xl">
         {/* Header */}
         <div className="mb-8">
