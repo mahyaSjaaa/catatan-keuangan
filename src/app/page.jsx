@@ -436,31 +436,43 @@ export default function Home() {
           </div>
 
           {/* Transaction List */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white rounded-xl shadow-sm border p-6 border-gray-100">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-900">Riwayat Transaksi</h2>
             </div>
-            <div className="flex justify-between mb-8">
-              <p className={` text-gray-500 text-[15px] flex items-center`}>Dari:</p>
+            <div className="flex flex-wrap justify-between items-center mb-8">
+              <p className="text-gray-500 text-[15px]">Dari:</p>
               <input
-                  type="date"
-                  value={tanggalGte}
-                  onChange={(e) => setTanggalGte(e.target.value)}
-                  className="border border-gray-400 rounded-sm border-1 px-1 text-sm outline-none"
-                  />
-              <p className={`text-gray-500 text-[15px] flex items-center`}>Hingga:</p>
+                type="date"
+                value={tanggalGte}
+                onChange={(e) => setTanggalGte(e.target.value)}
+                className="border border-gray-400 rounded-sm px-2 py-1 md:w-full sm:w-full text-sm outline-none w-full sm:w-auto"
+              />
+
+              <p className="text-gray-500 text-[15px]">Hingga:</p>
               <input
-                  type="date"
-                  value={tanggalLte}
-                  onChange={(e) => setTanggalLte(e.target.value)}
-                  className="border border-gray-400 rounded-sm border-1 px-1 text-sm outline-none"
-                  />
-              <button className={`${tanggalGte == ""|| tanggalLte == "" ? 'bg-gray-100 text-gray-400' : 'bg-[#4170FF]'} px-3 bg-[#E0E0E0] rounded-sm`} disabled={tanggalGte == ""|| tanggalLte == ""} onClick={()=> {
+                type="date"
+                value={tanggalLte}
+                onChange={(e) => setTanggalLte(e.target.value)}
+                className="border border-gray-400 rounded-sm px-2 py-1 md:w-full sm:w-full text-sm outline-none w-full sm:w-auto"
+              />
+
+              <button
+                className={`${tanggalGte == "" || tanggalLte == "" 
+                  ? 'bg-gray-100 text-gray-400' 
+                  : 'bg-[#4170FF] text-white'} 
+                  w-full mt-5 lg:w-20 md:w-full md:mt-5 sm:w-full sm:mt-5 py-1 rounded-sm`}
+                disabled={tanggalGte == "" || tanggalLte == ""}
+                onClick={() => {
                   setTanggalGte('')
                   setTanggalLte('')
                   setOnClear((prev) => prev + 1)
-              }}>Clear</button>  
+                }}
+              >
+                Clear
+              </button>
             </div>
+
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {mode === "pengeluaran" ? (
                   datas?.filter(data => data.status === "PENGELUARAN").length > 0 ? (
@@ -474,6 +486,14 @@ export default function Home() {
                               </div>
                               <span className="font-medium text-gray-900">{data.keterangan || 'Tanpa keterangan'}</span>
                             </div>
+                            <p className="text-[14px]">Tanggal: {new Date(data.created_at).toLocaleString('id-ID', {
+                                timeZone: "Asia/Jakarta", 
+                                year: "numeric", 
+                                month: "2-digit", 
+                                day: "2-digit", 
+                                hour: "2-digit", 
+                                minute: "2-digit" 
+                            })}</p>
                             <div className="grid grid-cols-2 gap-2 text-sm">
                               <p><span className="text-gray-600">Pengeluaran:</span> <span className="font-medium">{data.pengeluaran.toLocaleString("id-ID", {
                                 style: "currency",
@@ -515,15 +535,23 @@ export default function Home() {
                               </div>
                               <span className="font-medium text-gray-900">{data.keterangan || 'Tanpa keterangan'}</span>
                             </div>
+                            <p className="text-[14px]">Tanggal: {new Date(data.created_at).toLocaleString('id-ID', {
+                                timeZone: "Asia/Jakarta", 
+                                year: "numeric", 
+                                month: "2-digit", 
+                                day: "2-digit", 
+                                hour: "2-digit", 
+                                minute: "2-digit" 
+                            })}</p>
                             <div className="grid grid-cols-2 gap-2 text-sm">
                               <p><span className="text-gray-600">Pemasukan:</span> <span className="font-medium">{data.pemasukan.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}</span></p>
+                                style: "currency",
+                                currency: "IDR",
+                              })}</span></p>
                               <p><span className="text-gray-600">Uang Masuk:</span> <span className="font-medium">{data.uang_masuk.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                })}</span></p>
+                                style: "currency",
+                                currency: "IDR",
+                              })}</span></p>
                               <p><span className="text-gray-600">Metode:</span> <span className="font-medium capitalize">{data.metode}</span></p>
                             </div>
                           </div>
