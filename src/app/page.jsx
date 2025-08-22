@@ -42,7 +42,7 @@ export default function Home() {
       .from('expensess')
       .select()
       .gte('created_at', `${tanggalGte}T00:00:00`)
-      .lte('created_at', `${tanggalLte}T23:59:59`).order('created_at', {ascending:true})
+      .lte('created_at', `${tanggalLte}T23:59:59`).order('created_at', {ascending:false})
       console.log(data);
       
       if (data) {
